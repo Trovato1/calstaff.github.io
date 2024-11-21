@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Preços</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #000000;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0;
+      color: #ffffff;
+    }
+
+    #items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px auto;
+      max-width: 90%;
+      padding-bottom: 80px; /* Espaço extra para evitar sobreposição do rodapé */
+    }
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background: #612929;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      width: calc(100% / 2 - 20px); /* Responsivo */
+    }
+
+    .item label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #ffffff;
+    }
+
+    .item input {
+      width: 100%;
+      padding: 2px;
+      border: 1px solid #363535;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    #total-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #612929;
+      color: #ffffff;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 10px;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Responsividade para telas menores */
+    @media (max-width: 600px) {
+      .item {
+        width: calc(100% - 20px); /* Ocupa toda a largura em telas menores */
+      }
+
+      #total-container {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Calculadora de Preços</h1>
+  <div id="items"></div>
+  <div id="total-container">Total: $<span id="total">0</span></div>
+
+  <script>
+    // Lista de itens e preços
+    const precos = {
+      "M. PT": 1000,
+      "M. SMG": 1200,
+      "M. FUZIL": 1400,
+      "Drogas": 1000,
+      "Adrenalina": 60000,
+      "PISTOL HK": 170000,
+      "Five Seven": 200000,
+      "Tec-9": 250000,
+      "Micro UZI": 250000,
+      "MTAR-21": 270000,
+      "THOMPSON": 270000,
+      "AK-47": 350000,
+      "M4 SPEC(G36)": 350000,
+      "AK-47 MK2": 450000,
+      "Capuz": 20000,
+      "Corda": 15000,
+      "Keycard": 35000,
+      "C4": 15000,
+      "Colete": 40000,
+      "Pendrive": 50000,
+      "Placa": 40000,
+      "Algema": 20000,
+      "Lockpick": 15000,
+      "Masterpick": 15000
+    };
+
+    // Gerar os inputs dinâmicos
+    const container = document.getElementById("items");
+    for (const [item, valor] of Object.entries(precos)) {
+      const div = document.createElement("div");
+      div.classList.add("item");
+      div.innerHTML = `
+        <label translate="no">${item} ($${valor.toLocaleString()}): </label>
+        <input type="number" id="${item}" min="0" value="0" oninput="atualizarTotal()">
+      `;
+      container.appendChild(div);
+    }
+
+    // Função para calcular e atualizar o total em tempo real
+    function atualizarTotal() {
+      let total = 0;
+      for (const [item, valor] of Object.entries(precos)) {
+        const quantidade = document.getElementById(item).value;
+        total += valor * quantidade;
+      }
+      document.getElementById("total").innerText = total.toLocaleString();
+    }
+  </script>
+</body>
+</html>
